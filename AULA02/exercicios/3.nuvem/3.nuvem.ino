@@ -23,6 +23,16 @@ char auth[] = BLYNK_AUTH_TOKEN;
 #define W5100_CS  10
 #define SDCARD_CS 4
 
+//IPAddress server_ip (10, 0, 0, 10);
+
+// Mac address should be different for each device in your LAN
+byte arduino_mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
+IPAddress arduino_ip ( 10,   6,   79,  XX); -> MUDAR AQUI O FINAL DO IP PARA O DA SUA MAQUINA
+IPAddress dns_ip     (  8,   8,   8,   8);
+IPAddress gateway_ip ( 10,   6,   79,   254);
+
+IPAddress subnet_mask(255, 255, 255,   0);
+
 BlynkTimer timer;
 
 // This function is called every time the Virtual Pin 0 state changes
@@ -62,10 +72,9 @@ void setup()
   pinMode(SDCARD_CS, OUTPUT);
   digitalWrite(SDCARD_CS, HIGH); // Deselect the SD card
 
-  Blynk.begin(auth);
-  // You can also specify server:
-  //Blynk.begin(auth, "blynk.cloud", 80);
-  //Blynk.begin(auth, IPAddress(192,168,1,100), 8080);
+  //Blynk.begin(auth);
+
+  Blynk.begin(auth, "blynk.cloud", 80, arduino_ip, dns_ip, gateway_ip, subnet_mask, arduino_mac);
 
   // Setup a function to be called every second
   timer.setInterval(1000L, myTimerEvent);
